@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CrudlogicService, User } from './crudlogic.service';
 
@@ -10,7 +10,8 @@ describe('CrudlogicService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClientTesting(), CrudlogicService]
+      imports: [HttpClientTestingModule],
+      providers: [CrudlogicService]
     });
     service = TestBed.inject(CrudlogicService);
     httpMock = TestBed.inject(HttpTestingController);
