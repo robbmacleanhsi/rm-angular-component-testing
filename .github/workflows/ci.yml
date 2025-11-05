@@ -29,11 +29,29 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-node-
 
-      - name: Install system dependencies (Chromium)
+      - name: Locate or install Chrome/Chromium
         run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser libgconf-2-4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libgbm1
-
+          # Try to locate an existing Chrome/Chromium binary on the runner
+          if command -v google-chrome-stable >/dev/null 2>&1; then
+            echo "CHROME_BIN=$(command -v google-chrome-stable)" >> $GITHUB_ENV
+          elif command -v google-chrome >/dev/null 2>&1; then
+            echo "CHROME_BIN=$(command -v google-chrome)" >> $GITHUB_ENV
+          elif command -v chromium-browser >/dev/null 2>&1; then
+            echo "CHROME_BIN=$(command -v chromium-browser)" >> $GITHUB_ENV
+          elif command -v chromium >/dev/null 2>&1; then
+            echo "CHROME_BIN=$(command -v chromium)" >> $GITHUB_ENV
+          else
+            echo "No Chrome/Chromium binary found; installing minimal dependencies"
+            sudo apt-get update
+            # libgconf-2-4 is not available on newer Ubuntu images; install modern deps only
+            sudo apt-get install -y chromium libnss3 libatk1.0-0 libatk-bridge2.0-0 libgbm1 libasound2 libxss1 fonts-liberation
+            # Attempt to set CHROME_BIN to the installed binary path
+            if command -v chromium >/dev/null 2>&1; then
+              echo "CHROME_BIN=$(command -v chromium)" >> $GITHUB_ENV
+            elif command -v chromium-browser >/dev/null 2>&1; then
+              echo "CHROME_BIN=$(command -v chromium-browser)" >> $GITHUB_ENV
+            fi
+          fi
       - name: Install dependencies
         run: npm ci
 
