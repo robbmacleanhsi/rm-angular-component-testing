@@ -1,0 +1,67 @@
+<div style="text-align: center; margin: 20px;">
+  <h2>{{ title }}</h2>
+  
+  <!-- Refresh Button -->
+  <button (click)="refreshUsers()" 
+          class="btn btn-primary" 
+          style="margin-bottom: 20px;">
+    Refresh Users
+  </button>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" style="color: blue; margin: 20px;">
+    <p>Loading users...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" style="color: red; margin: 20px;">
+    <p>{{ error }}</p>
+    <button (click)="refreshUsers()" class="btn btn-warning">
+      Try Again
+    </button>
+  </div>
+
+  <!-- Users Display -->
+  <div *ngIf="!loading && !error">
+    <!-- No Users Message -->
+    <div *ngIf="users.length === 0" style="color: gray; margin: 20px;">
+      <p>No users found.</p>
+    </div>
+
+    <!-- Users Table -->
+    <div *ngIf="users.length > 0" style="margin: 20px;">
+      <table style="margin: 0 auto; border-collapse: collapse; width: 80%;">
+        <thead>
+          <tr style="background-color: #f0f0f0;">
+            <th style="border: 1px solid #ddd; padding: 12px;">ID</th>
+            <th style="border: 1px solid #ddd; padding: 12px;">Name</th>
+            <th style="border: 1px solid #ddd; padding: 12px;">Email</th>
+            <th style="border: 1px solid #ddd; padding: 12px;">Designation</th>
+            <th style="border: 1px solid #ddd; padding: 12px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; trackBy: trackByUserId" 
+              style="border-bottom: 1px solid #ddd;">
+            <td style="border: 1px solid #ddd; padding: 10px;">{{ user.id }}</td>
+            <td style="border: 1px solid #ddd; padding: 10px;">{{ user.name }}</td>
+            <td style="border: 1px solid #ddd; padding: 10px;">{{ user.email }}</td>
+            <td style="border: 1px solid #ddd; padding: 10px;">{{ user.designation }}</td>
+            <td style="border: 1px solid #ddd; padding: 10px;">
+              <button (click)="deleteUser(user.id!)" 
+                      class="btn btn-danger btn-sm"
+                      style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- Users Count -->
+      <p style="margin-top: 20px; color: #666;">
+        Total Users: {{ users.length }}
+      </p>
+    </div>
+  </div>
+</div>

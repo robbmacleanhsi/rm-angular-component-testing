@@ -1,0 +1,7 @@
+{
+  "users": [
+    { "id":1,"name": "test user1", "email": "testuser1@xyz.com", "designation": "tester" },
+    { "id":2,"name": "test user2", "email": "testuser2@xyz.com", "designation": "developer" },
+    {"id":3,"name": "test user3", "email": "testuser3@xyz.com", "designation": "designer" }
+  ]
+}

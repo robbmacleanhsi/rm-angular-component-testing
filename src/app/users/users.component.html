@@ -1,0 +1,38 @@
+<div style="text-align: center; margin-bottom: 20px; margin-top: 20px;">
+   <h2>{{ text }}</h2> 
+<br/><br/>
+
+<form id="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+  <div class="form-group">
+    <label class="center-block">Name:
+      <input class="form-control" formControlName="name">
+    </label>
+    <div *ngIf="contactForm.get('name')?.invalid && (contactForm.get('name')?.dirty || contactForm.get('name')?.touched)" 
+         style="color: red; font-size: 12px; margin-top: 5px;">
+      <div *ngIf="contactForm.get('name')?.errors?.['required']">Name is required.</div>
+      <div *ngIf="contactForm.get('name')?.errors?.['minlength']">Name must be at least 4 characters long.</div>
+    </div>
+    <br/><br/>
+    <label class="center-block">Email:
+      <input class="form-control" formControlName="email">
+    </label>
+    <div *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.dirty || contactForm.get('email')?.touched)" 
+         style="color: red; font-size: 12px; margin-top: 5px;">
+      <div *ngIf="contactForm.get('email')?.errors?.['required']">Email is required.</div>
+      <div *ngIf="contactForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
+    </div>
+    <br/><br/>
+    <label class="center-block">Designation:
+      <input class="form-control" formControlName="designation">
+    </label>
+    <div *ngIf="contactForm.get('designation')?.invalid && (contactForm.get('designation')?.dirty || contactForm.get('designation')?.touched)" 
+         style="color: red; font-size: 12px; margin-top: 5px;">
+      <div *ngIf="contactForm.get('designation')?.errors?.['required']">Designation is required.</div>
+    </div>
+    <br/><br/>
+  </div>
+    <button type="submit" [disabled]="!contactForm.valid"
+             class="btn btn-success">Save</button>
+</form>
+
+</div>
