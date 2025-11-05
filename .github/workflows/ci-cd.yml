@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+# Add permissions to allow GitHub Pages deployment
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -65,6 +71,10 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    # Add permissions for this job specifically
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout code
